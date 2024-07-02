@@ -41,6 +41,10 @@ class APIColler {
         request(route: .discoverMovies, method: .get, completion: completion)
     }
     
+    func search(query: String, completion: @escaping(Result<[Item], Error>) -> Void) {
+        request(route: .search, method: .get, query: query, completion: completion)
+    }
+    
 //    func getTrendingTvs(completion: @escaping(Result<[Item], Error>) -> Void) {
 //        guard let url = URL(string: "https://api.themoviedb.org/3/trending/tv/day?api_key=dd4e9a76dbd313f1a0d2e3a37c59f6e6") else {
 //            completion(.failure(ApiError.invalidUrl))
@@ -85,9 +89,9 @@ class APIColler {
         }
     }
     
-    private func request<T: Codable>(route: Route, method: Method, completion: @escaping(Result<T, Error>) -> Void) {
+    private func request<T: Codable>(route: Route, method: Method, query: String? = nil, completion: @escaping(Result<T, Error>) -> Void) {
         
-        guard let urlRequest = createUrlRequest(route: route, method: .get) else {
+        guard let urlRequest = createUrlRequest(route: route, method: .get, query: query) else {
             completion(.failure(ApiError.invalidUrl))
             return
         }
@@ -107,8 +111,15 @@ class APIColler {
             
     }
     
-    private func createUrlRequest(route: Route, method: Method) -> URLRequest? {
-        let urlString = Constants.mainUrl + route.description + Constants.API_KEY
+    private func createUrlRequest(route: Route, method: Method, query: String? = nil) -> URLRequest? {
+        
+        var urlString: String = ""
+        
+        if let query = query {
+            urlString = Constants.mainUrl + route.description + Constants.API_KEY + "&query=\(query)"
+        } else {
+            urlString = Constants.mainUrl + route.description + Constants.API_KEY
+        }
         
         guard let url = URL(string: urlString) else {return nil}
         

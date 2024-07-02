@@ -22,6 +22,7 @@ enum Route {
     case upcomingMovies
     case topRated
     case discoverMovies
+    case search
     
     var description: String {
         switch self {
@@ -37,6 +38,8 @@ enum Route {
             return "/movie/top_rated"
         case .discoverMovies:
             return "/discover/movie"
+        case .search:
+            return "/search/movie"
         }
     }
 }
