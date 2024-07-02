@@ -11,11 +11,20 @@ class SearchViewController: UIViewController {
     
     private var items: [Item] = []
     
-    let discoverTableView: UITableView = {
+    private let discoverTableView: UITableView = {
        let tableView = UITableView()
         tableView.register(LandscapeItemTableViewCell.self, forCellReuseIdentifier: LandscapeItemTableViewCell.identifier)
-        
+        tableView.allowsSelection = false
         return tableView
+    }()
+    
+    private let searchController: UISearchController = {
+        let controller = UISearchController(searchResultsController: SearchResultsViewController())
+        controller.searchBar.placeholder = "Search Movies and Tv"
+        controller.searchBar.searchBarStyle = .minimal
+        controller.searchBar.tintColor = .label
+  
+        return controller
     }()
 
     override func viewDidLoad() {
@@ -26,6 +35,7 @@ class SearchViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         view.addSubview(discoverTableView)
+        navigationItem.searchController = searchController
         
         discoverTableView.delegate = self
         discoverTableView.dataSource = self
@@ -35,7 +45,6 @@ class SearchViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         discoverTableView.frame = view.bounds
-        
     }
     
     private func fetchDiscoverMovies() {
