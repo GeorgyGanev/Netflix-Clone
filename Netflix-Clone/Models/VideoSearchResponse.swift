@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+
+struct VideoSearchResponse: Codable {
+    let items: [VideoItem]
+}
+
+struct VideoItem: Codable {
+    let id: VideoId
+}
+
+struct VideoId: Codable {
+    let videoId: String?
+}

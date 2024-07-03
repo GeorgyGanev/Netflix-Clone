@@ -45,30 +45,31 @@ class APIColler {
         request(route: .search, method: .get, query: query, completion: completion)
     }
     
-//    func getTrendingTvs(completion: @escaping(Result<[Item], Error>) -> Void) {
-//        guard let url = URL(string: "https://api.themoviedb.org/3/trending/tv/day?api_key=dd4e9a76dbd313f1a0d2e3a37c59f6e6") else {
-//            completion(.failure(ApiError.invalidUrl))
-//            return
-//        }
-//        
-//        let task = URLSession.shared.dataTask(with: url) { data, _, error in
-//            guard let data = data, error == nil else {
-//                completion(.failure(ApiError.failedToGetData))
-//                return
-//            }
-//            
-//            do {
-//                let response = try JSONDecoder().decode(TrendingTvResponse.self, from: data)
-//                completion(.success(response.results))
-//            } catch {
-//                print(error.localizedDescription)
-//            }
-//            
-//        }
-//        
-//        task.resume()
-//        
-//    }
+    
+    func getUtubeVideo(query: String, completion: @escaping(Result<VideoSearchResponse, Error>) -> Void) {
+        guard let url = URL(string: "\(Constants.uTubeBaseUrl)?key=\(Constants.UTUBE_API_KEY)&q=\(query) trailer") else {
+            completion(.failure(ApiError.invalidUrl))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                completion(.failure(ApiError.failedToGetData))
+                return
+            }
+            
+            do {
+                let response = try JSONDecoder().decode(VideoSearchResponse.self, from: data)
+                completion(.success(response))
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+        }
+        
+        task.resume()
+        
+    }
         
     private func handleResponse<T: Codable>(result: Result<Data, Error>?, completion: @escaping(Result<T, Error>) -> Void) {
         guard let result = result else {
@@ -116,7 +117,7 @@ class APIColler {
         var urlString: String = ""
         
         if let query = query {
-            urlString = Constants.mainUrl + route.description + Constants.API_KEY + "&query=\(query)"
+                urlString = Constants.mainUrl + route.description + Constants.API_KEY + "&query=\(query)"
         } else {
             urlString = Constants.mainUrl + route.description + Constants.API_KEY
         }

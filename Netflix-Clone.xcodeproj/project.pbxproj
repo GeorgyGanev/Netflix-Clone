@@ -29,6 +29,7 @@
 		663861472C32FB1D006AEE99 /* UpcomingItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663861462C32FB1D006AEE99 /* UpcomingItemTableViewCell.swift */; };
 		663861492C33ECE1006AEE99 /* LandscapeItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663861482C33ECE1006AEE99 /* LandscapeItemTableViewCell.swift */; };
 		6638614D2C342FF2006AEE99 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6638614C2C342FF2006AEE99 /* SearchResultsViewController.swift */; };
+		6638614F2C358354006AEE99 /* VideoSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6638614E2C358354006AEE99 /* VideoSearchResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		663861462C32FB1D006AEE99 /* UpcomingItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingItemTableViewCell.swift; sourceTree = "<group>"; };
 		663861482C33ECE1006AEE99 /* LandscapeItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeItemTableViewCell.swift; sourceTree = "<group>"; };
 		6638614C2C342FF2006AEE99 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		6638614E2C358354006AEE99 /* VideoSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSearchResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				663861372C303B46006AEE99 /* Item.swift */,
 				663861392C3049B8006AEE99 /* Tv.swift */,
 				6638613D2C3077F9006AEE99 /* ApiResponse.swift */,
+				6638614E2C358354006AEE99 /* VideoSearchResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				6638613E2C3077F9006AEE99 /* ApiResponse.swift in Sources */,
 				663860DE2C2B12D8006AEE99 /* CollectionViewTableViewCell.swift in Sources */,
 				663860E02C2B33D1006AEE99 /* HeroHeaderUIView.swift in Sources */,
+				6638614F2C358354006AEE99 /* VideoSearchResponse.swift in Sources */,
 				6638614D2C342FF2006AEE99 /* SearchResultsViewController.swift in Sources */,
 				6638613A2C3049B8006AEE99 /* Tv.swift in Sources */,
 				663860D72C2B073A006AEE99 /* DownloadsViewController.swift in Sources */,

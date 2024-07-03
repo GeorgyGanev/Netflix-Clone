@@ -71,5 +71,22 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let query = items[indexPath.row].name ?? items[indexPath.row].title else { return }
+        
+        APIColler.shared.getUtubeVideo(query: query) { result in
+            switch result {
+            case .success(let response):
+                for item in response.items {
+                    if let id = item.id.videoId {
+                        print(id)
+                        return
+                    } else {continue}
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
 }

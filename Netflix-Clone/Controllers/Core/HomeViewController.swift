@@ -144,6 +144,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sectionTitles[section]
     }
+    
             
     //SETUP THE HEADER TITLE OF SECTIONS
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
