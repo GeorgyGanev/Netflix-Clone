@@ -2,6 +2,9 @@
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
 
+# ApiKeys.swift file with API keys
+ApiKeys.swift
+
 ## User settings
 xcuserdata/
 
