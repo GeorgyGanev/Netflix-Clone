@@ -74,7 +74,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let query = items[indexPath.row].name ?? items[indexPath.row].title else { return }
         
-        APIColler.shared.getUtubeVideo(query: query) { result in
+        APIColler.shared.getUtubeVideo(query: query + " trailer") { result in
             switch result {
             case .success(let response):
                 for item in response.items {

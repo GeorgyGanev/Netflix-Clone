@@ -47,7 +47,7 @@ class APIColler {
     
     
     func getUtubeVideo(query: String, completion: @escaping(Result<VideoSearchResponse, Error>) -> Void) {
-        guard let url = URL(string: "\(Constants.uTubeBaseUrl)?key=\(Constants.UTUBE_API_KEY)&q=\(query) trailer") else {
+        guard let url = URL(string: "\(Constants.uTubeBaseUrl)?key=\(Constants.UTUBE_API_KEY)&q=\(query)") else {
             completion(.failure(ApiError.invalidUrl))
             return
         }
