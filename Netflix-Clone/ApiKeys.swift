@@ -10,5 +10,5 @@ import Foundation
 struct ApiKeys {
     
     static let API_KEY = "?api_key=a3718f4656bb449b88e6db6bb38c1876"
-    static let UTUBE_API_KEY = "p4B3xVDvqMqMO"
+    static let UTUBE_API_KEY = ""
 }
