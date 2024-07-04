@@ -25,6 +25,8 @@ class HomeViewController: UIViewController {
         return table
     }()
     
+    private var headerView: HeroHeaderUIView?
+    
     private let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top Rated"]
 
     override func viewDidLoad() {
@@ -39,7 +41,7 @@ class HomeViewController: UIViewController {
         
         configureNavBar()
         
-        let headerView = HeroHeaderUIView(frame: .init(x: 0, y: 0, width: view.bounds.width, height: 450))
+        headerView = HeroHeaderUIView(frame: .init(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
         
     }
@@ -47,6 +49,20 @@ class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         homeFeedTable.frame = view.bounds
+        
+        configureHeaderView()
+    }
+    
+    private func configureHeaderView() {
+        APIColler.shared.getTrendingMovies { [weak self] result in
+            switch result {
+            case .success(let movies):
+                guard let randomMovie = movies.randomElement() else {return}
+                self?.headerView?.configure(with: randomMovie)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func configureNavBar() {
@@ -61,7 +77,6 @@ class HomeViewController: UIViewController {
     }
     
 }
-
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
