@@ -14,7 +14,6 @@ class SearchViewController: UIViewController {
     private let discoverTableView: UITableView = {
        let tableView = UITableView()
         tableView.register(LandscapeItemTableViewCell.self, forCellReuseIdentifier: LandscapeItemTableViewCell.identifier)
-        tableView.allowsSelection = false
         return tableView
     }()
     
@@ -82,6 +81,28 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 130
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let item = items[indexPath.row]
+        guard let previewItemTitle = item.title ?? item.name else { return }
+       
+        APIColler.shared.getUtubeVideo(query: "\(previewItemTitle) trailer") { result in
+            switch result {
+            case .success(let videoSearchResult):
+                guard let videoPath = videoSearchResult.items[0].id.videoId else {return}
+                DispatchQueue.main.async { [weak self] in
+                    let previewItem = ItemVideoPreview(title: previewItemTitle, url: videoPath, overview: item.overview ?? "")
+                    let vc = ItemPreviewViewController()
+                    vc.configure(with: previewItem)
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+       
     }
     
 }

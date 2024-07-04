@@ -32,6 +32,7 @@ class ItemPreviewViewController: UIViewController {
         label.textColor = .label
         label.numberOfLines = 0
         label.textAlignment = .natural
+        label.lineBreakMode = .byTruncatingMiddle
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,7 +51,8 @@ class ItemPreviewViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-
+        navigationController?.navigationBar.tintColor = .label
+        
         view.addSubview(webView)
         view.addSubview(titleLabel)
         view.addSubview(descriptionLabel)
@@ -78,7 +80,8 @@ class ItemPreviewViewController: UIViewController {
         
         let descriptionLabelConstraints = [
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10),
+           // descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            descriptionLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95),
             descriptionLabel.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 20),
             //descriptionLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
         ]
