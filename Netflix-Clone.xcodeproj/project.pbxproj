@@ -105,6 +105,7 @@
 				663860C42C2B0516006AEE99 /* Assets.xcassets */,
 				663860C62C2B0516006AEE99 /* LaunchScreen.storyboard */,
 				663860C92C2B0516006AEE99 /* Info.plist */,
+				663861522C369037006AEE99 /* ApiKeys.swift */,
 			);
 			path = "Netflix-Clone";
 			sourceTree = "<group>";
@@ -160,7 +161,6 @@
 			children = (
 				663861352C303162006AEE99 /* APIColler.swift */,
 				6638613B2C306A5D006AEE99 /* Routes.swift */,
-				663861522C369037006AEE99 /* ApiKeys.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
