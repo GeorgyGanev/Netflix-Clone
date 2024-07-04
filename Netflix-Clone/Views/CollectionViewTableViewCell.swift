@@ -7,11 +7,17 @@
 
 import UIKit
 
+protocol CollectionViewTableViewCellDelegate: AnyObject {
+    func CollectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, model: ItemVideoPreview)
+}
+
 class CollectionViewTableViewCell: UITableViewCell {
 
     static let identifier = String(describing: CollectionViewTableViewCell.self)
     
     private var items: [Item] = []
+    
+    weak var delegate: CollectionViewTableViewCellDelegate?
     
     private let collectionView: UICollectionView = {
         
@@ -72,14 +78,23 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let query = items[indexPath.row].name ?? items[indexPath.row].title else { return }
         
-        APIColler.shared.getUtubeVideo(query: query + " trailer") { result in
+        let item = items[indexPath.row]
+        
+        guard let query = item.name ?? item.title else { return }
+        
+        APIColler.shared.getUtubeVideo(query: query + " trailer") { [weak self] result in
             switch result {
-            case .success(let response):
-                for item in response.items {
-                    if let id = item.id.videoId {
-                        print(id)
+            case .success(let videoResponse):
+                for resultItem in videoResponse.items {
+                    if let id = resultItem.id.videoId {
+                      
+                        guard let title = item.title ?? item.name else { return }
+                        guard let description = item.overview else { return }
+                        let previewModel = ItemVideoPreview(title: title, url: id, overview: description)
+                        guard let strongSelf = self else {return}
+                        self?.delegate?.CollectionViewTableViewCellDidTapCell(strongSelf, model: previewModel)
+                       
                         return
                     } else {continue}
                 }
