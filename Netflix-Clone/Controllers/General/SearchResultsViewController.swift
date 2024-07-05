@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol SearchResultsViewControllerDelegate: AnyObject {
+    func searchResultsViewControllerDidTapCell(item: ItemVideoPreview)
+}
+
 class SearchResultsViewController: UIViewController {
 
     var items: [Item] = []
+    
+    weak var delegate: SearchResultsViewControllerDelegate?
     
     let searchResultsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -39,7 +45,6 @@ class SearchResultsViewController: UIViewController {
 
 }
 
-
 extension SearchResultsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -55,6 +60,21 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
         return cell
     }
     
-    
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let item = items[indexPath.row]
+        guard let title = item.name ?? item.title else {return}
+        APIColler.shared.getUtubeVideo(query: "\(title) trailer") { [weak self] videoSearchResponse in
+            switch videoSearchResponse {
+            case .success(let response):
+                guard let videoPath = response.items[0].id.videoId else {return}
+                let previewItem = ItemVideoPreview(title: title, url: videoPath, overview: item.overview ?? "")
+                self?.delegate?.searchResultsViewControllerDidTapCell(item: previewItem)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+        
 }

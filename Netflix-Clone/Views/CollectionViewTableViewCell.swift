@@ -43,6 +43,10 @@ class CollectionViewTableViewCell: UITableViewCell {
         
     }
     
+    private func saveMovieItemToDownaloads(at indexPath: IndexPath) {
+        print(items[indexPath.row].title ?? items[indexPath.row].name ?? "no name")
+    }
+    
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -102,6 +106,19 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    //ENABLE OPTION MENU DISPLAY WITH DOWNLOAD ACTION OPTION
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+    
+        let config = UIContextMenuConfiguration(actionProvider:  { [weak self] _ in
+            let downloadAction = UIAction(title: "Download", state: .off) { _ in
+                self?.saveMovieItemToDownaloads(at: indexPath)
+            }
+            return UIMenu(options: .displayInline, children: [downloadAction])
+        })
+        
+        return config
     }
     
 }

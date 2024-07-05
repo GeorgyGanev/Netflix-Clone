@@ -85,13 +85,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         let item = items[indexPath.row]
+        
         guard let previewItemTitle = item.title ?? item.name else { return }
        
         APIColler.shared.getUtubeVideo(query: "\(previewItemTitle) trailer") { result in
             switch result {
             case .success(let videoSearchResult):
                 guard let videoPath = videoSearchResult.items[0].id.videoId else {return}
+                
                 DispatchQueue.main.async { [weak self] in
                     let previewItem = ItemVideoPreview(title: previewItemTitle, url: videoPath, overview: item.overview ?? "")
                     let vc = ItemPreviewViewController()
@@ -107,8 +110,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension SearchViewController: UISearchResultsUpdating {
+extension SearchViewController: UISearchResultsUpdating, SearchResultsViewControllerDelegate {
     
+
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
         
@@ -116,6 +120,8 @@ extension SearchViewController: UISearchResultsUpdating {
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
               query.trimmingCharacters(in: .whitespaces).count >= 3,
               let resultsController = searchController.searchResultsController as? SearchResultsViewController else {return}
+            
+        resultsController.delegate = self
         
         APIColler.shared.search(query: query) { result in
             DispatchQueue.main.async {
@@ -131,5 +137,15 @@ extension SearchViewController: UISearchResultsUpdating {
         
     }
     
+    func searchResultsViewControllerDidTapCell(item: ItemVideoPreview) {
+        DispatchQueue.main.async { [weak self] in
+            let vc = ItemPreviewViewController()
+            vc.configure(with: item)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     
 }
+
+
