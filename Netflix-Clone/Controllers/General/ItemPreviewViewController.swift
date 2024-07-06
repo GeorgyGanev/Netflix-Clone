@@ -46,7 +46,9 @@ class ItemPreviewViewController: UIViewController {
         button.layer.cornerRadius = 5
         return button
     }()
-
+    
+    private var selectedItem: ItemVideoPreview?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,9 +60,25 @@ class ItemPreviewViewController: UIViewController {
         view.addSubview(descriptionLabel)
         view.addSubview(button)
         
-       applyConstraints()
+        applyConstraints()
+        
+        button.addTarget(self, action: #selector(downloadButtonClicked), for: .touchUpInside)
     }
     
+    @objc func downloadButtonClicked() {
+    
+        let newItem = Item(id: selectedItem?.id ?? 0, title: selectedItem?.title, name: selectedItem?.name, original_title: nil, original_name: nil, overview: selectedItem?.overview, media_type: nil, poster_path: selectedItem?.poster_path, release_date: nil, vote_count: nil, vote_average: nil)
+       
+            DataPersistenceManager.shared.saveItemToStorage(itemModel: newItem) { result in
+                switch result {
+                case .success():
+                    print("saved to db")
+                    NotificationCenter.default.post(name: .init("Downloaded to DB"), object: nil)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+    }
 
     private func applyConstraints() {
         
@@ -100,11 +118,13 @@ class ItemPreviewViewController: UIViewController {
     }
    
     func configure(with item: ItemVideoPreview) {
+    
         guard let url = URL(string: "\(Constants.uTubePreviewBaseUrl)/\(item.url)") else { return }
         titleLabel.text = item.title
         descriptionLabel.text = item.overview
         webView.load(URLRequest(url: url))
         
+        selectedItem = item
     }
 
 }

@@ -8,5 +8,11 @@
 import Foundation
 
 struct ItemVideoPreview {
-    let title, url, overview: String
+    let title, url : String
+    let overview: String?
+    let poster_path: String?
+    let name: String?
+    let id: Int
 }
+
+

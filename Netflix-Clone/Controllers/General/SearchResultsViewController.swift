@@ -69,7 +69,7 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
             switch videoSearchResponse {
             case .success(let response):
                 guard let videoPath = response.items[0].id.videoId else {return}
-                let previewItem = ItemVideoPreview(title: title, url: videoPath, overview: item.overview ?? "")
+                let previewItem = ItemVideoPreview(title: title, url: videoPath, overview: item.overview ?? "", poster_path: item.poster_path, name: item.name, id: item.id)
                 self?.delegate?.searchResultsViewControllerDidTapCell(item: previewItem)
             case .failure(let error):
                 print(error.localizedDescription)

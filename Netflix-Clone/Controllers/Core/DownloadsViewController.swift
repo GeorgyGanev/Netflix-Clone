@@ -94,7 +94,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let videoPath = videoSearchResult.items[0].id.videoId else {return}
                 
                 DispatchQueue.main.async { [weak self] in
-                    let previewItem = ItemVideoPreview(title: previewItemTitle, url: videoPath, overview: item.overview ?? "")
+                    let previewItem = ItemVideoPreview(title: previewItemTitle, url: videoPath, overview: item.overview ?? "", poster_path: item.poster_path, name: item.name, id: Int(item.id))
                     let vc = ItemPreviewViewController()
                     vc.configure(with: previewItem)
                     self?.navigationController?.pushViewController(vc, animated: true)

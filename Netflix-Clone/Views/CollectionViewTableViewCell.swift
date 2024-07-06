@@ -101,7 +101,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
                       
                         guard let title = item.title ?? item.name else { return }
                         guard let description = item.overview else { return }
-                        let previewModel = ItemVideoPreview(title: title, url: id, overview: description)
+                        let previewModel = ItemVideoPreview(title: title, url: id, overview: description, poster_path: item.poster_path, name: item.name, id: item.id)
                         guard let strongSelf = self else {return}
                         self?.delegate?.CollectionViewTableViewCellDidTapCell(strongSelf, model: previewModel)
                        
