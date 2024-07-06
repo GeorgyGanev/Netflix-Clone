@@ -34,8 +34,6 @@ class CollectionViewTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        //contentView.backgroundColor = .systemPink
-        
         contentView.addSubview(collectionView)
         
         collectionView.dataSource = self
@@ -44,7 +42,15 @@ class CollectionViewTableViewCell: UITableViewCell {
     }
     
     private func saveMovieItemToDownaloads(at indexPath: IndexPath) {
-        print(items[indexPath.row].title ?? items[indexPath.row].name ?? "no name")
+        DataPersistenceManager.shared.saveItemToStorage(itemModel: items[indexPath.row]) { result in
+            switch result {
+            case .success():
+                print("saved to DB")
+                NotificationCenter.default.post(name: .init("Downloaded to DB"), object: nil)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     required init?(coder: NSCoder) {

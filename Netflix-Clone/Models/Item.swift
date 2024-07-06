@@ -14,6 +14,6 @@ import Foundation
 struct Item: Codable {
     let id: Int
     let title, name, original_title, original_name, overview, media_type, poster_path, release_date: String?
-    let vode_count: Int?
+    let vote_count: Int?
     let vote_average: Double?
 }
