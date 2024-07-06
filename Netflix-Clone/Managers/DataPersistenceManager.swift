@@ -12,6 +12,7 @@ import CoreData
 enum DataBaseError: Error {
     case failedToSaveData
     case failedToFetchData
+    case failedToDeleteData
 }
 
 class DataPersistenceManager {
@@ -57,6 +58,17 @@ class DataPersistenceManager {
             
         } catch {
             completion(.failure(DataBaseError.failedToFetchData))
+        }
+    }
+    
+    func deleteMediaItem(item: MediaItem, completion: @escaping(Result<Void, Error>) -> Void) {
+        context.delete(item)
+        
+        do {
+            try context.save()
+            completion(.success(()))
+        } catch {
+            completion(.failure(DataBaseError.failedToDeleteData))
         }
     }
     

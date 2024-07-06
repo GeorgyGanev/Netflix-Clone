@@ -62,7 +62,6 @@ class DownloadsViewController: UIViewController {
 
 extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
     
-   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         items.count
     }
@@ -108,5 +107,21 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            DataPersistenceManager.shared.deleteMediaItem(item: items[indexPath.row]) { result in
+                switch result {
+                case .success():
+                    print("Deleted Item from DB")
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+            items.remove(at: indexPath.row)
+            downloadsTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
     
 }
